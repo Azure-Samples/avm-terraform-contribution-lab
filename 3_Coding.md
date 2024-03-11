@@ -104,15 +104,24 @@ resource "azurerm_resource_group" "this" {
 #### Steps
 
 * Open outputs.tf
-* Add outputs for the resource id and resource group name:
+* Add outputs for the resource id, the resource name, and the full resource outputs:
 
 ```
-output "resource" {
+output "id" {
+  description = "The ID of the resource."
   value = azurerm_resource_group.this.id
 }
 
-output "resource_group_name" {
+output "name" {
+  description = "The name of the resource"
   value = azurerm_resource_group.this.name
+}
+
+output "resource" {
+  description = "The Resource Group resource."
+  value = azurerm_resource_group.this
+}
+
 ```
 
 ### Validate the code
@@ -157,11 +166,11 @@ module "terraform-azurerm-avm-res-resources-resourcegroups" {
 * Add outputs to see the resource group name and id to the bottom of the file.  Note that they are outputting the outputs from our module.
 ```
 output "resource_group_name" {
-  value = module.terraform-azurerm-avm-res-resources-resourcegroups.resource_group_name
+  value = module.terraform-azurerm-avm-res-resources-resourcegroups.name
 }
 
 output "resource_group_id" {
-  value = module.terraform-azurerm-avm-res-resources-resourcegroups.resource
+  value = module.terraform-azurerm-avm-res-resources-resourcegroups.id
 }
 ```
 
@@ -229,7 +238,7 @@ variable "lock" {
 resource "azurerm_resource_group" "this" {
     name     = var.name
     location = var.location
-    tags     = var. tags 
+    tags     = var.tags 
 }
 
 resource "azurerm_management_lock" "this" {
